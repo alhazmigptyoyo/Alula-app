@@ -1,0 +1,6 @@
+{
+  "name": "رفيق العلا الشامل | AlUla Guide",
+  "description": "تطبيق رفيق العلا الشامل - مساعد ذكي، استكشاف المعالم والمطاعم والفعاليات، طقس مباشر، ومخطط رحلات وحجوزات",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

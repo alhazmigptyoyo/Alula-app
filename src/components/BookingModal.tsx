@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { AlUlaItem, BookingTicket } from '../types';
+import { createBooking } from '../services/api';
 import { X, Calendar, Clock, Users, User, CheckCircle2, QrCode, Download, Share2, Ticket } from 'lucide-react';
 
 interface Props {
@@ -26,22 +27,17 @@ export const BookingModal: React.FC<Props> = ({ item, isOpen, onClose, onBooking
     setIsSubmitting(true);
 
     try {
-      const res = await fetch('/api/book', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          itemId: item.id,
-          guestName: guestName || 'ضيف العلا الكريم',
-          guestsCount,
-          bookingDate,
-          bookingTime
-        })
-      });
+      const ticket = await createBooking(
+        item.id,
+        guestName || 'ضيف العلا الكريم',
+        guestsCount,
+        bookingDate,
+        bookingTime
+      );
 
-      const data = await res.json();
-      if (data.ticket) {
-        setConfirmedTicket(data.ticket);
-        onBookingComplete(data.ticket);
+      if (ticket) {
+        setConfirmedTicket(ticket);
+        onBookingComplete(ticket);
       }
     } catch (err) {
       console.error('Booking failed:', err);

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ItineraryDay, AlUlaItem } from '../types';
+import { fetchItineraryData } from '../services/api';
 import { Calendar, Clock, MapPin, Sparkles, Ticket, Lightbulb, ChevronLeft } from 'lucide-react';
 
 interface Props {
@@ -14,12 +15,7 @@ export const ItineraryView: React.FC<Props> = ({ onOpenBooking }) => {
   const fetchItinerary = async (days: number) => {
     setIsLoading(true);
     try {
-      const res = await fetch('/api/itinerary', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ days })
-      });
-      const data = await res.json();
+      const data = await fetchItineraryData(days);
       setItinerary(data);
     } catch (err) {
       console.error('Failed to fetch itinerary:', err);

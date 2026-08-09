@@ -6,6 +6,7 @@ import { ItineraryView } from './components/ItineraryView';
 import { TicketsView } from './components/TicketsView';
 import { WeatherWidget } from './components/WeatherWidget';
 import { BookingModal } from './components/BookingModal';
+import { fetchWeather as getWeather } from './services/api';
 import { Sparkles, MessageSquare, Compass, Calendar, Ticket, Sun, Moon, Info, ShieldCheck, MapPin, Sparkle } from 'lucide-react';
 
 export default function App() {
@@ -16,15 +17,14 @@ export default function App() {
   const [showWeatherModal, setShowWeatherModal] = useState(false);
 
   useEffect(() => {
-    fetchWeather();
-    const interval = setInterval(fetchWeather, 60000); // refresh every minute
+    loadWeather();
+    const interval = setInterval(loadWeather, 60000); // refresh every minute
     return () => clearInterval(interval);
   }, []);
 
-  const fetchWeather = async () => {
+  const loadWeather = async () => {
     try {
-      const res = await fetch('/api/weather');
-      const data = await res.json();
+      const data = await getWeather();
       setWeather(data);
     } catch (err) {
       console.error('Weather fetch failed:', err);

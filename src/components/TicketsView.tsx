@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BookingTicket, AlUlaItem } from '../types';
+import { fetchAllTickets } from '../services/api';
 import { Ticket, Calendar, Clock, Users, QrCode, Trash2, CheckCircle2 } from 'lucide-react';
 
 interface Props {
@@ -11,13 +12,12 @@ export const TicketsView: React.FC<Props> = () => {
   const [selectedTicket, setSelectedTicket] = useState<BookingTicket | null>(null);
 
   useEffect(() => {
-    fetchTickets();
+    loadTickets();
   }, []);
 
-  const fetchTickets = async () => {
+  const loadTickets = async () => {
     try {
-      const res = await fetch('/api/tickets');
-      const data = await res.json();
+      const data = await fetchAllTickets();
       setTickets(data);
       if (data.length > 0) setSelectedTicket(data[0]);
     } catch (err) {

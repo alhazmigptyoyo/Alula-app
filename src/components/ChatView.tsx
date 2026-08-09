@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { ChatMessage, AlUlaItem } from '../types';
+import { sendChatMessage } from '../services/api';
 import { Sparkles, User, Send, Volume2, VolumeX, Calendar, MapPin, Star, Ticket, ArrowLeft, RefreshCw } from 'lucide-react';
 
 interface Props {
@@ -45,13 +46,7 @@ export const ChatView: React.FC<Props> = ({ onOpenBooking }) => {
     setIsLoading(true);
 
     try {
-      const res = await fetch('/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: query })
-      });
-
-      const data = await res.json();
+      const data = await sendChatMessage(query);
 
       const assistantMsg: ChatMessage = {
         id: `ast-${Date.now()}`,
